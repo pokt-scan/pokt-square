@@ -1,0 +1,4 @@
+untracked/*
+.env
+
+__pycache__/
