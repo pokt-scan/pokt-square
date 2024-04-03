@@ -2,10 +2,12 @@ version: '3.5'
 
 services:
   pnyx_langserve:
-    container_name: pocket_network_langserve
-    image: docker.io/library/pocket_network_langserve:latest
+    container_name: pocket_square
+    image: pocket_square:latest
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - POCKET_NEWTWORK_ETH_URL=${POCKET_NEWTWORK_ETH_URL}
+      - OPENAI_CHAT_MODEL=${OPENAI_CHAT_MODEL}
+      - POCKET_NEWTWORK_ETH_OPEN_API_DOCS=${POCKET_NEWTWORK_ETH_OPEN_API_DOCS}
     ports:
      - "8080:8080"

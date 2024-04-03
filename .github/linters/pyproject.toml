@@ -1,0 +1,11 @@
+[tool.black]
+include = '''(?x)(
+        ^app/
+        ^packages/
+    )
+'''
+line-length = 120
+
+[tool.isort]
+# make it compatible with black
+profile = "black"

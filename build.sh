@@ -1,4 +1,4 @@
-imageNAME="pocket_network_langserve"
+imageNAME="pocket_square"
 imageTAG="0.0.1"
 echo "Building $imageNAME:$imageTAG"
 

@@ -12,10 +12,14 @@ packages = [
 python = "^3.11"
 uvicorn = "^0.23.2"
 langserve = {extras = ["server"], version = ">=0.0.30"}
-pydantic = "<2"
 web3 = "^6.16.0"
-openai = "^1.14.3"
+openai = "^1.16.1"
 langchain-openai = "^0.1.1"
+langchain-community = ">=0.0.31"
+openapi-pydantic=">=0.4.0"
+openapi-schema-pydantic=">=1.2.4"
+pydantic=">=2.6.4"
+pydantic_core=">=2.16.3"
 
 
 [tool.poetry.group.dev.dependencies]

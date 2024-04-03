@@ -1,35 +1,41 @@
 import os
-from langchain.tools import BaseTool
+from typing import Optional, Type
+
 from langchain.callbacks.manager import (
     AsyncCallbackManagerForToolRun,
     CallbackManagerForToolRun,
 )
-from langchain_core.language_models.base import BaseLanguageModel
-from langchain_core.language_models.chat_models import BaseChatModel
+from langchain.tools import BaseTool
 from langchain_core.pydantic_v1 import BaseModel, Field
-from typing import Any, Dict, List, Literal, Optional, Tuple, Type, Union
+from web3 import AsyncHTTPProvider, AsyncWeb3, HTTPProvider, Web3
 
-from web3 import Web3, AsyncWeb3, HTTPProvider, AsyncHTTPProvider
-
+# Get the URL of the open endpoint for the ETH RPC
 POCKET_NEWTWORK_ETH_URL = os.getenv("POCKET_NEWTWORK_ETH_URL")
 
-w3 = Web3(Web3.HTTPProvider(POCKET_NEWTWORK_ETH_URL, request_kwargs={'timeout': 60}))
-aw3 = AsyncWeb3(AsyncHTTPProvider(POCKET_NEWTWORK_ETH_URL, request_kwargs={'timeout': 60}))
+# Instance the web3 library to perform the calls to the node
+w3 = Web3(Web3.HTTPProvider(POCKET_NEWTWORK_ETH_URL, request_kwargs={"timeout": 60}))
+aw3 = AsyncWeb3(AsyncHTTPProvider(POCKET_NEWTWORK_ETH_URL, request_kwargs={"timeout": 60}))
 
+################################################################################
+# ------------------------------ Create Tool --------------------------------- #
+################################################################################
+
+# Tool input schema
 class POKT_eth_getBalanceSchema(BaseModel):
     address: str = Field(
-        description="The Ethereum address to check for balance",        
+        description="The Ethereum address to check for balance",
     )
     blockNumber: str = Field(
         default="latest",
-        description="The block number or the string latest, earliest, pending, safe or finalized. If not provided, use \"latest\".",
+        description='The block number or the string latest, earliest, pending, safe or finalized. If not provided, use "latest".',
     )
 
+
+# Tool definition
 class POKT_eth_getBalance(BaseTool):
     name: str = "eth_getBalance"
     description: str = "Returns the balance of the account of a given address."
     args_schema: Type[POKT_eth_getBalanceSchema] = POKT_eth_getBalanceSchema
-
 
     def _run(
         self,
@@ -68,7 +74,7 @@ class POKT_eth_getBalance(BaseTool):
 
         if Web3.is_address(address):
             try:
-                 response = await aw3.eth.get_balance(address, blockNumber)
+                response = await aw3.eth.get_balance(address, blockNumber)
             except Exception as e:
                 response = "Sorry, I could't find your balance. Please verify the address and try again."
         else:
